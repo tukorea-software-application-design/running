@@ -31,7 +31,7 @@ public class UserService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
         body.add("client_id", "7f8c9995a36f55554348032c83b16b96");
-        body.add("redirect_uri", "http://localhost:8080/login/oauth2/code/kakao");
+        body.add("redirect_uri", "http://43.201.65.100:8080/login/oauth2/code/kakao");
         body.add("code", code);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트로 담는다
