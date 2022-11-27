@@ -2,18 +2,15 @@ package io.running.domain.member.entity;
 
 import io.running.domain.base.BaseTimeEntity;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
-@Getter @NoArgsConstructor
-@Setter
+@Getter @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Member extends BaseTimeEntity implements UserDetails {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -37,39 +34,5 @@ public class Member extends BaseTimeEntity implements UserDetails {
         this.nickname = nickname;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 }
 
