@@ -1,4 +1,4 @@
-package io.sample.ouath2native;
+package io.running.ouath2native;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
