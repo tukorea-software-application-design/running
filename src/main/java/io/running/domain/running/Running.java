@@ -43,12 +43,15 @@ public class Running {
 
     private int maxPeople;
 
-    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RunnigImage> runningImageList = new ArrayList<>();
+    @OneToMany(mappedBy = "running", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RunningImage> runningImageList = new ArrayList<>();
 
-    public Running(Member owner, MeetingAgeType meetingType, Address address, Content content, int maxPeople, RunnigImage... runnigImages) {
+    @OneToMany(mappedBy = "running", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<RunningMember> runningMemberList = new ArrayList<>();
+
+    public Running(Member owner, MeetingAgeType meetingType, Address address, Content content, int maxPeople, RunningImage... runningImages) {
         setOwner(owner);
-        addRunningImage(runnigImages);
+        addRunningImage(runningImages);
         this.owner = owner;
         this.meetingType = meetingType;
         this.address = address;
@@ -65,10 +68,17 @@ public class Running {
         owner.getRunningList().add(this);
     }
 
-    public void addRunningImage(RunnigImage[] runningImages) {
-        for (RunnigImage runnigImage : runningImages) {
-            this.runningImageList.add(runnigImage);
-            runnigImage.setRunning(this);
+    public void addRunningImage(RunningImage[] runningImages) {
+        for (RunningImage runningImage : runningImages) {
+            this.runningImageList.add(runningImage);
+            runningImage.setRunning(this);
         }
     }
+
+    //cascade 가 remove 일 경우에만 같이 삭제 되므로 따로 save 호출해줘야 함
+    public void addRunningMember(RunningMember runningMember) {
+        this.runningMemberList.add(runningMember);
+        runningMember.setRunning(this);
+    }
+
 }

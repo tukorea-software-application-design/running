@@ -10,19 +10,19 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter @Setter
 @Builder
-public class RunnigImage extends BaseTimeEntity {
+public class RunningImage extends BaseTimeEntity {
 
     @Id @GeneratedValue
-    @Column(name = "meeting_image_id")
+    @Column(name = "running_image_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "meeting_id")
+    @JoinColumn(name = "running_id")
     private Running running;
 
     private String imgUrl;
 
-    public RunnigImage(String imgUrl) {
+    public RunningImage(String imgUrl) {
         this.imgUrl = imgUrl;
     }
 }

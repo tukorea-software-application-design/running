@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum JoinRequestStatus {
+public enum JoinStatus {
     
     WAITING("대기중"),
     APPROVED("승인됨"),
-    DECLINED("거절됨");
+    REJECTED("거절됨");
     
-    private String detail;
+    private String status;
 }
