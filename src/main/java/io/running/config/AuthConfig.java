@@ -1,8 +1,7 @@
 package io.running.config;
 
 
-import com.google.firebase.auth.FirebaseAuth;
-import io.running.domain.member.service.MemberService;
+import io.running.service.MemberService;
 import io.running.filter.MockJwtFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
