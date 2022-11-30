@@ -2,33 +2,88 @@ package io.running.domain.running;
 
 import io.running.domain.running.vo.Address;
 import io.running.domain.running.vo.Content;
+import io.running.domain.running.vo.JoinStatus;
 import io.running.domain.running.vo.MeetingAgeType;
 import io.running.domain.member.Member;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
 class RunningTest {
 
+    Member member;
+
+    MeetingAgeType anyone;
+    Address meetingAddress;
+    Content content;
+
+    RunningImage runningImage1;
+    RunningImage runningImage2;
+    RunningImage runningImage3;
+
+    Running running;
+
+    RunningMember runningMember1;
+    RunningMember runningMember2;
+    RunningMember runningMember3;
+    RunningMember runningMember4;
+
+    @BeforeEach
+    public void beforeEach() {
+        member = new Member("1234", "issiscv@naver.com", "김상운", "img.com", "나는 개똥 벌레");
+
+        anyone = MeetingAgeType.ANYONE;
+        meetingAddress = new Address();
+        content = new Content("제목", "내용");
+
+        runningImage1 = new RunningImage("runnig1.png");
+        runningImage2 = new RunningImage("runnig2.png");
+        runningImage3 = new RunningImage("runnig3.png");
+
+        running = new Running(member, anyone, meetingAddress, this.content, 10, runningImage1, runningImage2, runningImage3);
+
+        runningMember1 = new RunningMember(member);
+        runningMember2 = new RunningMember(member);
+        runningMember3 = new RunningMember(member);
+
+        running.addRunningMember(runningMember1);
+        running.addRunningMember(runningMember2);
+        running.addRunningMember(runningMember3);
+
+    }
+
     @Test
-    public void 미팅_생성() throws Exception {
-        Member member = new Member("1234", "issiscv@naver.com", "김상운", "img.com", "나는 개똥 벌레");
+    public void 런닝_생성() throws Exception {
 
-        MeetingAgeType anyone = MeetingAgeType.ANYONE;
-        Address meetingAddress = new Address();
-        Content content = new Content("제목", "내용");
+        assertThat(running.getOwner().getRunningList().size()).isEqualTo(member.getRunningList().size());
+        assertThat(running.getRunningImageList().size()).isEqualTo(3);
+        assertThat(runningImage1.getRunning()).isEqualTo(running);
+        assertThat(runningImage2.getRunning()).isEqualTo(running);
+        assertThat(runningImage3.getRunning()).isEqualTo(running);
 
-        RunnigImage runningImage1 = new RunnigImage("runnig1.png");
-        RunnigImage runningImage2 = new RunnigImage("runnig2.png");
-        RunnigImage runningImage3 = new RunnigImage("runnig3.png");
+    }
 
-        Running running1 = new Running(member, anyone, meetingAddress, content, 10, runningImage1, runningImage2, runningImage3);
+    @Test
+    public void 런닝_가입() throws Exception {
 
-        assertThat(running1.getOwner().getRunningList().size()).isEqualTo(member.getRunningList().size());
-        assertThat(running1.getRunningImageList().size()).isEqualTo(3);
-        assertThat(runningImage1.getRunning()).isEqualTo(running1);
-        assertThat(runningImage2.getRunning()).isEqualTo(running1);
-        assertThat(runningImage3.getRunning()).isEqualTo(running1);
+        assertThat(running.getRunningMemberList().size()).isEqualTo(3);
+        assertThat(runningMember1.getRunning()).isEqualTo(running);
+        assertThat(runningMember2.getRunning()).isEqualTo(running);
+        assertThat(runningMember3.getRunning()).isEqualTo(running);
+    }
+
+    @Test
+    public void 런닝_가입_승인() throws Exception {
+        //when
+        runningMember1.approveJoinStatus();
+        runningMember2.rejectJoinStatus();
+
+        //then
+        assertThat(runningMember1.getJoinStatus()).isEqualTo(JoinStatus.APPROVED);
+        assertThat(runningMember2.getJoinStatus()).isEqualTo(JoinStatus.REJECTED);
+        assertThat(running.getRunningMemberList().get(0).getJoinStatus()).isEqualTo(JoinStatus.APPROVED);
+        assertThat(running.getRunningMemberList().get(1).getJoinStatus()).isEqualTo(JoinStatus.REJECTED);
     }
 
 }
