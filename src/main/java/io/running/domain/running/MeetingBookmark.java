@@ -7,11 +7,8 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class MeetingBookmark extends BaseTimeEntity {
     @Id
     @GeneratedValue

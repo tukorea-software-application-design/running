@@ -4,10 +4,7 @@ import io.running.domain.running.vo.Address;
 import io.running.domain.running.vo.Content;
 import io.running.domain.running.vo.MeetingAgeType;
 import io.running.domain.member.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,9 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Builder
 public class Running {
 
     @Id @GeneratedValue
@@ -49,6 +45,10 @@ public class Running {
     @OneToMany(mappedBy = "running", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<RunningMember> runningMemberList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "running", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<RunningPost> runningPostList = new ArrayList<>();
+
+    // TODO: 2022-11-30 문자열 runningDate 를 LocalDateTime 으로 파싱 작업
     public Running(Member owner, MeetingAgeType meetingType, Address address, Content content, int maxPeople, RunningImage... runningImages) {
         setOwner(owner);
         addRunningImage(runningImages);
@@ -79,6 +79,11 @@ public class Running {
     public void addRunningMember(RunningMember runningMember) {
         this.runningMemberList.add(runningMember);
         runningMember.setRunning(this);
+    }
+
+    public void addRunningPost(RunningPost runningPost) {
+        this.runningPostList.add(runningPost);
+        runningPost.setRunning(this);
     }
 
 }

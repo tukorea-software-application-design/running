@@ -8,10 +8,8 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter @Setter
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class RunningMember extends BaseTimeEntity {
 
     @Id @GeneratedValue
@@ -42,4 +40,7 @@ public class RunningMember extends BaseTimeEntity {
         this.joinStatus = JoinStatus.APPROVED;
     }
 
+    public void setRunning(Running running) {
+        this.running = running;
+    }
 }

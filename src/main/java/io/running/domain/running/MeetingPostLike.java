@@ -6,10 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class MeetingPostLike {
 
     @Id @GeneratedValue
@@ -22,5 +20,5 @@ public class MeetingPostLike {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_post_id")
-    private MeetingPost meetingPost;
+    private RunningPost runningPost;
 }

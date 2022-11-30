@@ -7,9 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Getter @Setter
-@Builder
+@Getter
 public class RunningImage extends BaseTimeEntity {
 
     @Id @GeneratedValue
@@ -24,5 +22,9 @@ public class RunningImage extends BaseTimeEntity {
 
     public RunningImage(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public void setRunning(Running running) {
+        this.running = running;
     }
 }

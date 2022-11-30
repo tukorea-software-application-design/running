@@ -10,9 +10,7 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Getter @Setter
-@Builder
+@Getter
 public class MeetingComment extends BaseTimeEntity {
 
     @Id @GeneratedValue
@@ -25,7 +23,7 @@ public class MeetingComment extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_post_id")
-    private MeetingPost meetingPost;
+    private RunningPost runningPost;
 
     @JoinColumn(name = "meeting_comment_parent_id")
     @ManyToOne(fetch = FetchType.LAZY)
