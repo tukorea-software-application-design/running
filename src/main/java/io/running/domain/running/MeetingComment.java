@@ -1,4 +1,4 @@
-package io.running.domain.meeting;
+package io.running.domain.running;
 
 import io.running.domain.base.BaseTimeEntity;
 import io.running.domain.member.Member;

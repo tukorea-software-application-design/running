@@ -1,4 +1,4 @@
-package io.running.domain.meeting.vo;
+package io.running.domain.running.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

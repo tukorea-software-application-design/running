@@ -1,4 +1,4 @@
-package io.running.domain.meeting;
+package io.running.domain.running;
 
 import io.running.domain.base.BaseTimeEntity;
 import io.running.domain.member.Member;
@@ -19,7 +19,7 @@ public class MeetingMember extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_id")
-    private Meeting meeting;
+    private Running running;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

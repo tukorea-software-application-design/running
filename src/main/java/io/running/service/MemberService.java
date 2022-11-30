@@ -27,7 +27,6 @@ public class MemberService implements UserDetailsService {
     private Member makeMember(MemberResisterDto memberResisterDto) {
         return Member.builder()
                 .uid(memberResisterDto.getUid())
-                .email(memberResisterDto.getEmail())
                 .name(memberResisterDto.getName())
                 .nickname(memberResisterDto.getNickname())
                 .imgUrl(memberResisterDto.getImgUrl())

@@ -27,7 +27,6 @@ public class MemberLocalRegisterRespDto {
     public MemberLocalRegisterRespDto(Member member) {
         this.id = member.getId();
         this.uid = member.getUid();
-        this.email = member.getEmail();
         this.name = member.getName();
         this.nickname = member.getNickname();
         this.imgUrl = member.getImgUrl();

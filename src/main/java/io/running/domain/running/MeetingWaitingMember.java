@@ -1,7 +1,7 @@
-package io.running.domain.meeting;
+package io.running.domain.running;
 
 import io.running.domain.base.BaseTimeEntity;
-import io.running.domain.meeting.vo.JoinRequestStatus;
+import io.running.domain.running.vo.JoinRequestStatus;
 import io.running.domain.member.Member;
 import lombok.*;
 
@@ -24,7 +24,7 @@ public class MeetingWaitingMember extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_id")
-    private Meeting meeting;
+    private Running running;
 
     @Enumerated(EnumType.STRING)
     private JoinRequestStatus joinRequestStatus;
