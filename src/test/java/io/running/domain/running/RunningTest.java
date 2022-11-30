@@ -86,4 +86,17 @@ class RunningTest {
         assertThat(running.getRunningMemberList().get(1).getJoinStatus()).isEqualTo(JoinStatus.REJECTED);
     }
 
+    @Test
+    public void 런닝_게시글_작성() throws Exception {
+        //given
+        RunningPost runningPost = new RunningPost(member, content);
+
+        //when
+        running.addRunningPost(runningPost);
+
+        //then
+        assertThat(running.getRunningPostList().size()).isEqualTo(1);
+        assertThat(running.getRunningPostList().get(0)).isEqualTo(runningPost);
+    }
+
 }
