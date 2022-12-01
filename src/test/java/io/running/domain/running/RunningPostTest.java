@@ -53,7 +53,7 @@ class RunningPostTest {
         RunningPostLike runningPostLike = new RunningPostLike(member);
 
         //when
-        runningPost.addRunningPostLike(runningPostLike);
+        runningPostLike.setRunningPost(runningPost);
 
         //then
         assertThat(runningPost.getRunningPostLikeList().size()).isEqualTo(1);
@@ -64,7 +64,7 @@ class RunningPostTest {
     public void 런닝_게시글_좋아요() throws Exception {
         //given
         RunningPostLike runningPostLike = new RunningPostLike(member);
-        runningPost.addRunningPostLike(runningPostLike);
+        runningPostLike.setRunningPost(runningPost);
 
         //when then
         runningPostLike.changeLiked();
@@ -80,8 +80,8 @@ class RunningPostTest {
         RunningPostLike runningPostLike2 = new RunningPostLike(member);
 
         //when then
-        runningPost.addRunningPostLike(runningPostLike1);
-        assertThrows(CustomException.class, () -> runningPost.addRunningPostLike(runningPostLike2));
+        runningPostLike1.setRunningPost(runningPost);
+        assertThrows(CustomException.class, () -> runningPostLike2.setRunningPost(runningPost));
     }
 
 }
