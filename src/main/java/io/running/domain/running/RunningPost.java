@@ -48,6 +48,7 @@ public class RunningPost extends BaseTimeEntity {
 
     public void setRunning(Running running) {
         this.running = running;
+        running.getRunningPostList().add(this);
     }
 
     private void addRunningPostImages(RunningPostImage... runningPostImages) {
