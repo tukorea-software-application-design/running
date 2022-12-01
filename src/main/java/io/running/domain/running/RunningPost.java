@@ -51,6 +51,28 @@ public class RunningPost extends BaseTimeEntity {
         running.getRunningPostList().add(this);
     }
 
+    public boolean isMemberRunningPostLiked(Member member) {
+        for (RunningPostLike runningPostLike : runningPostLikeList) {
+            if (runningPostLike.getMember() == member) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removePostLikeByMember(Member member) {
+        RunningPostLike tmp = null;
+
+        for (RunningPostLike runningPostLike : runningPostLikeList) {
+            if (runningPostLike.getMember() == member) {
+                tmp = runningPostLike;
+                break;
+            }
+        }
+
+        runningPostLikeList.remove(tmp);
+    }
+
     private void addRunningPostImages(RunningPostImage... runningPostImages) {
         for (RunningPostImage runningPostImage : runningPostImages) {
             this.runningPostImageList.add(runningPostImage);
