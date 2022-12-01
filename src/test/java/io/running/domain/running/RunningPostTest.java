@@ -1,0 +1,72 @@
+package io.running.domain.running;
+
+import io.running.domain.member.Member;
+import io.running.domain.running.vo.Address;
+import io.running.domain.running.vo.Content;
+import io.running.domain.running.vo.MeetingAgeType;
+import io.running.exception.CustomException;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+class RunningPostTest {
+
+    Member member;
+
+    Address meetingAddress;
+    Content content;
+
+    RunningPost runningPost;
+
+    @BeforeEach
+    public void beforeEach() {
+        member = new Member("1234", "issiscv@naver.com", "김상운", "img.com", "나는 개똥 벌레");
+
+        meetingAddress = new Address();
+        content = new Content("제목", "내용");
+
+        runningPost = new RunningPost(member, content);
+    }
+
+    @Test
+    public void 런닝_게시글_좋아요_생성() throws Exception {
+        //given
+        RunningPostLike runningPostLike = new RunningPostLike(member);
+
+        //when
+        runningPost.addRunningPostLike(runningPostLike);
+
+        //then
+        assertThat(runningPost.getRunningPostLikeList().size()).isEqualTo(1);
+        assertThat(runningPost.getRunningPostLikeList().get(0)).isEqualTo(runningPostLike);
+    }
+
+    @Test
+    public void 런닝_게시글_좋아요() throws Exception {
+        //given
+        RunningPostLike runningPostLike = new RunningPostLike(member);
+
+        runningPost.addRunningPostLike(runningPostLike);
+
+        //when then
+        runningPostLike.changeLiked();
+        assertThat(runningPostLike.isLiked()).isFalse();
+        runningPostLike.changeLiked();
+        assertThat(runningPostLike.isLiked()).isTrue();
+    }
+
+    @Test()
+    public void 런닝_게시글_중복_좋아요() throws Exception {
+        //given
+        RunningPostLike runningPostLike1 = new RunningPostLike(member);
+        RunningPostLike runningPostLike2 = new RunningPostLike(member);
+
+        //when
+        runningPost.addRunningPostLike(runningPostLike1);
+        assertThrows(CustomException.class, () -> runningPost.addRunningPostLike(runningPostLike2));
+    }
+
+}
