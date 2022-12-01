@@ -68,7 +68,7 @@ public class Running {
         owner.getRunningList().add(this);
     }
 
-    public void addRunningImage(RunningImage[] runningImages) {
+    private void addRunningImage(RunningImage... runningImages) {
         for (RunningImage runningImage : runningImages) {
             this.runningImageList.add(runningImage);
             runningImage.setRunning(this);

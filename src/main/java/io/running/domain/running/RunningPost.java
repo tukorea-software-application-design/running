@@ -9,6 +9,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -30,16 +31,27 @@ public class RunningPost extends BaseTimeEntity {
 
     private Content content;
 
+    @OneToMany(mappedBy = "runningPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RunningPostImage> runningPostImageList = new ArrayList<>();
+
     @OneToMany(mappedBy = "runningPost", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<RunningPostLike> runningPostLikeList = new ArrayList<>();
-    
-    public RunningPost(Member member, Content content) {
+
+    public RunningPost(Member member, Content content, RunningPostImage... runningPostImages) {
+        addRunningPostImages(runningPostImages);
         this.member = member;
         this.content = content;
     }
 
     public void setRunning(Running running) {
         this.running = running;
+    }
+
+    private void addRunningPostImages(RunningPostImage... runningPostImages) {
+        for (RunningPostImage runningPostImage : runningPostImages) {
+            this.runningPostImageList.add(runningPostImage);
+            runningPostImage.setRunningPost(this);
+        }
     }
 
     public void addRunningPostLike(RunningPostLike runningPostLike) {
