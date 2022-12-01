@@ -64,13 +64,13 @@ class RunningPostTest {
     public void 런닝_게시글_좋아요() throws Exception {
         //given
         RunningPostLike runningPostLike = new RunningPostLike(member);
-        runningPostLike.setRunningPost(runningPost);
 
-        //when then
-        runningPostLike.changeLiked();
-        assertThat(runningPostLike.isLiked()).isFalse();
-        runningPostLike.changeLiked();
-        assertThat(runningPostLike.isLiked()).isTrue();
+        runningPostLike.setRunningPost(runningPost);
+        assertThat(runningPost.getRunningPostLikeList().size()).isEqualTo(1);
+
+        runningPostLike.setRunningPost(runningPost);
+        assertThat(runningPost.getRunningPostLikeList().size()).isEqualTo(0);
+
     }
 
     @Test
