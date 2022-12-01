@@ -3,9 +3,13 @@ package io.running.domain.running;
 import io.running.domain.base.BaseTimeEntity;
 import io.running.domain.member.Member;
 import io.running.domain.running.vo.Content;
+import io.running.exception.CustomException;
+import io.running.exception.ErrorCode;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,6 +30,9 @@ public class RunningPost extends BaseTimeEntity {
 
     private Content content;
 
+    @OneToMany(mappedBy = "runningPost", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<RunningPostLike> runningPostLikeList = new ArrayList<>();
+    
     public RunningPost(Member member, Content content) {
         this.member = member;
         this.content = content;
@@ -33,5 +40,15 @@ public class RunningPost extends BaseTimeEntity {
 
     public void setRunning(Running running) {
         this.running = running;
+    }
+
+    public void addRunningPostLike(RunningPostLike runningPostLike) {
+        for (RunningPostLike rp : runningPostLikeList) {
+            if (rp.getMember() == runningPostLike.getMember()) {
+                throw new CustomException(ErrorCode.BAD_REQUEST, "이미 좋아요를 눌렀습니다.");
+            }
+        }
+        this.runningPostLikeList.add(runningPostLike);
+        runningPostLike.setRunningPost(this);
     }
 }
