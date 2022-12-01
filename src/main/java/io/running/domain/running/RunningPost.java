@@ -37,6 +37,9 @@ public class RunningPost extends BaseTimeEntity {
     @OneToMany(mappedBy = "runningPost", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<RunningPostLike> runningPostLikeList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "runningPost", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<RunningComment> runningCommentList = new ArrayList<>();
+    
     public RunningPost(Member member, Content content, RunningPostImage... runningPostImages) {
         addRunningPostImages(runningPostImages);
         this.member = member;
@@ -47,13 +50,6 @@ public class RunningPost extends BaseTimeEntity {
         this.running = running;
     }
 
-    private void addRunningPostImages(RunningPostImage... runningPostImages) {
-        for (RunningPostImage runningPostImage : runningPostImages) {
-            this.runningPostImageList.add(runningPostImage);
-            runningPostImage.setRunningPost(this);
-        }
-    }
-
     public void addRunningPostLike(RunningPostLike runningPostLike) {
         for (RunningPostLike rp : runningPostLikeList) {
             if (rp.getMember() == runningPostLike.getMember()) {
@@ -62,5 +58,12 @@ public class RunningPost extends BaseTimeEntity {
         }
         this.runningPostLikeList.add(runningPostLike);
         runningPostLike.setRunningPost(this);
+    }
+
+    private void addRunningPostImages(RunningPostImage... runningPostImages) {
+        for (RunningPostImage runningPostImage : runningPostImages) {
+            this.runningPostImageList.add(runningPostImage);
+            runningPostImage.setRunningPost(this);
+        }
     }
 }
