@@ -27,16 +27,27 @@ public class RunningComment extends BaseTimeEntity {
 
     @JoinColumn(name = "running_comment_parent_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private RunningComment runningCommentParent;
+    private RunningComment runningParentComment;
 
     @OneToMany(mappedBy = "runningCommentParent", orphanRemoval = true)
-    private List<RunningComment> runningCommentChild = new ArrayList<>();
+    private List<RunningComment> runningChildComment = new ArrayList<>();
 
     private String content;
 
     public RunningComment(Member member, String content) {
         this.member = member;
         this.content = content;
+    }
+
+    public RunningComment(Member member, RunningComment parentRunningComment, String content) {
+        this.member = member;
+        this.content = content;
+        setParentComment(parentRunningComment);
+    }
+
+    private void setParentComment(RunningComment parentRunningComment) {
+        this.runningParentComment = parentRunningComment;
+        parentRunningComment.getRunningChildComment().add(this);
     }
 
     public void setRunningPost(RunningPost runningPost) {

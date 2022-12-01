@@ -33,6 +33,7 @@ public class RunningPostLike {
         this.runningPost = runningPost;
     }
 
+    // TODO: 2022-12-01 좋아요 변경 시 runningPost 컬렉션 동기화
     public void changeLiked() {
         this.isLiked = this.isLiked == true ? false : true;
     }

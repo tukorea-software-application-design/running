@@ -34,6 +34,7 @@ public class RunningPost extends BaseTimeEntity {
     @OneToMany(mappedBy = "runningPost", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RunningPostImage> runningPostImageList = new ArrayList<>();
 
+    // TODO: 2022-12-01 생명주기가 완전 동일하지 않다면 연관관계 편의 메서드를 manyToOne 엔티티로 옮기기
     @OneToMany(mappedBy = "runningPost", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<RunningPostLike> runningPostLikeList = new ArrayList<>();
 
