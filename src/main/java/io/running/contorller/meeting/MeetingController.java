@@ -1,6 +1,6 @@
 package io.running.contorller.meeting;
 
-import io.running.domain.meeting.service.MeetingService;
+import io.running.service.MeetingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

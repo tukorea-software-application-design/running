@@ -3,7 +3,7 @@ package io.running.service;
 import io.running.dto.req.MemberEditReqDto;
 import io.running.dto.resp.MemberLocalRegisterRespDto;
 import io.running.domain.member.Member;
-import io.running.domain.member.MemberRepository;
+import io.running.domain.member.repositroy.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

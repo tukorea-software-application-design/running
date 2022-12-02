@@ -1,4 +1,4 @@
-package io.running.domain.member;
+package io.running.domain.member.repositroy;
 
 import io.running.domain.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

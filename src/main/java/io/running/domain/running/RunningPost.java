@@ -29,6 +29,7 @@ public class RunningPost extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Embedded
     private Content content;
 
     @OneToMany(mappedBy = "runningPost", cascade = CascadeType.ALL, orphanRemoval = true)
