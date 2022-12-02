@@ -68,22 +68,11 @@ public class Running {
         owner.getRunningList().add(this);
     }
 
-    public void addRunningImage(RunningImage[] runningImages) {
+    private void addRunningImage(RunningImage... runningImages) {
         for (RunningImage runningImage : runningImages) {
             this.runningImageList.add(runningImage);
             runningImage.setRunning(this);
         }
-    }
-
-    //cascade 가 remove 일 경우에만 같이 삭제 되므로 따로 save 호출해줘야 함
-    public void addRunningMember(RunningMember runningMember) {
-        this.runningMemberList.add(runningMember);
-        runningMember.setRunning(this);
-    }
-
-    public void addRunningPost(RunningPost runningPost) {
-        this.runningPostList.add(runningPost);
-        runningPost.setRunning(this);
     }
 
 }

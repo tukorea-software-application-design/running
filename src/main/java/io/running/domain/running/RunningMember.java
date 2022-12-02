@@ -42,5 +42,6 @@ public class RunningMember extends BaseTimeEntity {
 
     public void setRunning(Running running) {
         this.running = running;
+        running.getRunningMemberList().add(this);
     }
 }

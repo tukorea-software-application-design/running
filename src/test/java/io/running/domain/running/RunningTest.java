@@ -27,7 +27,6 @@ class RunningTest {
     RunningMember runningMember1;
     RunningMember runningMember2;
     RunningMember runningMember3;
-    RunningMember runningMember4;
 
     @BeforeEach
     public void beforeEach() {
@@ -47,9 +46,9 @@ class RunningTest {
         runningMember2 = new RunningMember(member);
         runningMember3 = new RunningMember(member);
 
-        running.addRunningMember(runningMember1);
-        running.addRunningMember(runningMember2);
-        running.addRunningMember(runningMember3);
+        runningMember1.setRunning(running);
+        runningMember2.setRunning(running);
+        runningMember3.setRunning(running);
 
     }
 
@@ -92,7 +91,7 @@ class RunningTest {
         RunningPost runningPost = new RunningPost(member, content);
 
         //when
-        running.addRunningPost(runningPost);
+        runningPost.setRunning(running);
 
         //then
         assertThat(running.getRunningPostList().size()).isEqualTo(1);

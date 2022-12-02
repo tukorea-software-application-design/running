@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MeetingPostImage extends BaseTimeEntity {
+public class RunningPostImage extends BaseTimeEntity {
 
     @Id @GeneratedValue
     @Column(name = "meeting_post_image_id")
@@ -20,8 +20,17 @@ public class MeetingPostImage extends BaseTimeEntity {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "meeting_post_id")
+    @JoinColumn(name = "running_post_id")
     private RunningPost runningPost;
 
     private String imgUrl;
+
+    public RunningPostImage(Member member, String imgUrl) {
+        this.member = member;
+        this.imgUrl = imgUrl;
+    }
+
+    public void setRunningPost(RunningPost runningPost) {
+        this.runningPost = runningPost;
+    }
 }

@@ -20,5 +20,5 @@ public class MeetingCommentLike {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_comment_id")
-    private MeetingComment meetingComment;
+    private RunningComment runningComment;
 }
