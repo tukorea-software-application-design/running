@@ -72,16 +72,16 @@ class RunningPostTest {
         assertThat(runningPost.getRunningPostLikeList().size()).isEqualTo(0);
 
     }
-
-    @Test
-    public void 런닝_게시글_중복_좋아요() throws Exception {
-        //given
-        RunningPostLike runningPostLike1 = new RunningPostLike(member);
-        RunningPostLike runningPostLike2 = new RunningPostLike(member);
-
-        //when then
-        runningPostLike1.setRunningPost(runningPost);
-        assertThrows(CustomException.class, () -> runningPostLike2.setRunningPost(runningPost));
-    }
+//
+//    @Test
+//    public void 런닝_게시글_중복_좋아요() throws Exception {
+//        //given
+//        RunningPostLike runningPostLike1 = new RunningPostLike(member);
+//        RunningPostLike runningPostLike2 = new RunningPostLike(member);
+//
+//        //when then
+//        runningPostLike1.setRunningPost(runningPost);
+//        assertThrows(CustomException.class, () -> runningPostLike2.setRunningPost(runningPost));
+//    }
 
 }

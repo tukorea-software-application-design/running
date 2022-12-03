@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -44,6 +45,10 @@ class RunningTest {
         runningImage3 = new RunningImage("runnig3.png");
 
         List<RunningImage> runningImages = new ArrayList<>();
+
+        runningImages.add(runningImage1);
+        runningImages.add(runningImage2);
+        runningImages.add(runningImage3);
 
         running = new Running(member, anyone, meetingAddress, this.content, 10, runningImages);
 
