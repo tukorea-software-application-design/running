@@ -1,6 +1,8 @@
 package io.running.config;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import io.running.filter.JwtFilter;
 import io.running.filter.MockJwtFilter;
 import io.running.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,6 @@ public class AuthConfig {
     private final MemberService memberService;
 
     @Bean
-    @Profile("local")
     public AuthFilterContainer mockAuthFilter() {
         log.info("Initializing local AuthFilter");
         AuthFilterContainer authFilterContainer = new AuthFilterContainer();
