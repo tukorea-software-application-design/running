@@ -3,10 +3,13 @@ package io.running.domain.running;
 import io.running.domain.running.vo.Address;
 import io.running.domain.running.vo.Content;
 import io.running.domain.running.vo.JoinStatus;
-import io.running.domain.running.vo.MeetingAgeType;
+import io.running.domain.running.vo.RunningAgeType;
 import io.running.domain.member.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -14,7 +17,7 @@ class RunningTest {
 
     Member member;
 
-    MeetingAgeType anyone;
+    RunningAgeType anyone;
     Address meetingAddress;
     Content content;
 
@@ -32,7 +35,7 @@ class RunningTest {
     public void beforeEach() {
         member = new Member("1234", "issiscv@naver.com", "김상운", "img.com", "나는 개똥 벌레");
 
-        anyone = MeetingAgeType.ANYONE;
+        anyone = RunningAgeType.ANYONE;
         meetingAddress = new Address();
         content = new Content("제목", "내용");
 
@@ -40,7 +43,9 @@ class RunningTest {
         runningImage2 = new RunningImage("runnig2.png");
         runningImage3 = new RunningImage("runnig3.png");
 
-        running = new Running(member, anyone, meetingAddress, this.content, 10, runningImage1, runningImage2, runningImage3);
+        List<RunningImage> runningImages = new ArrayList<>();
+
+        running = new Running(member, anyone, meetingAddress, this.content, 10, runningImages);
 
         runningMember1 = new RunningMember(member);
         runningMember2 = new RunningMember(member);
