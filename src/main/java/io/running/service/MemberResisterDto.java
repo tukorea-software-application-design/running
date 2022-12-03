@@ -10,8 +10,6 @@ public class MemberResisterDto {
 
     private String name;
 
-    private String email;
-
     private String nickname;
 
     private String imgUrl;
@@ -22,7 +20,6 @@ public class MemberResisterDto {
     public MemberResisterDto(MemberLocalRegisterReqDto memberLocalRegisterReqDto) {
         this.uid = memberLocalRegisterReqDto.getUid();
         this.name = memberLocalRegisterReqDto.getName();
-        this.email = memberLocalRegisterReqDto.getEmail();
         this.nickname = memberLocalRegisterReqDto.getNickname();
         this.imgUrl = memberLocalRegisterReqDto.getImgUrl();
         this.introduce = memberLocalRegisterReqDto.getIntroduce();

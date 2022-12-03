@@ -3,27 +3,33 @@ package io.running.service;
 import io.running.contorller.running.dto.req.RunningCreateReqDto;
 import io.running.contorller.running.dto.resp.RunningCreateRespDto;
 import io.running.domain.member.Member;
+import io.running.domain.member.repositroy.MemberRepository;
 import io.running.domain.running.Running;
 import io.running.domain.running.RunningImage;
 import io.running.domain.running.repository.RunningRepository;
 import io.running.domain.running.vo.Address;
 import io.running.domain.running.vo.Content;
+import io.running.exception.CustomException;
+import io.running.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class RunningService {
 
     private final RunningRepository runningRepository;
+    private final MemberRepository memberRepository;
 
     public RunningCreateRespDto createRunning(Member member, RunningCreateReqDto createReqDto) {
-        Running running = makeRunningBy(member, createReqDto);
-        runningRepository.save(running);
-        return null;
+        Running saveRunning = runningRepository.save(makeRunningBy(member, createReqDto));
+        return new RunningCreateRespDto(saveRunning);
     }
 
     private Running makeRunningBy(Member member, RunningCreateReqDto createReqDto) {

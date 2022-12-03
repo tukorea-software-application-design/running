@@ -29,7 +29,7 @@ public class RunningComment extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private RunningComment runningParentComment;
 
-    @OneToMany(mappedBy = "runningCommentParent", orphanRemoval = true)
+    @OneToMany(mappedBy = "runningParentComment", orphanRemoval = true)
     private List<RunningComment> runningChildComment = new ArrayList<>();
 
     private String content;

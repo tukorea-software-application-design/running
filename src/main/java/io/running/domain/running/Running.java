@@ -28,7 +28,7 @@ public class Running {
     private RunningAgeType meetingType;
 
     @Embedded
-    public Address address;
+    private Address address;
 
     @Embedded
     private Content content;

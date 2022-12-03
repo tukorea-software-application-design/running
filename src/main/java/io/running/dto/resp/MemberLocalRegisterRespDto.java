@@ -14,8 +14,6 @@ public class MemberLocalRegisterRespDto {
 
     private String uid;
 
-    private String email;
-
     private String name;
 
     private String nickname;

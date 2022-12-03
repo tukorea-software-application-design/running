@@ -10,8 +10,6 @@ import lombok.*;
 public class MemberLocalRegisterReqDto {
     private String uid;
 
-    private String email;
-
     private String name;
 
     private String nickname;
