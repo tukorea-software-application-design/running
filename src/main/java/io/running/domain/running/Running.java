@@ -2,7 +2,7 @@ package io.running.domain.running;
 
 import io.running.domain.running.vo.Address;
 import io.running.domain.running.vo.Content;
-import io.running.domain.running.vo.MeetingAgeType;
+import io.running.domain.running.vo.RunningAgeType;
 import io.running.domain.member.Member;
 import lombok.*;
 
@@ -25,7 +25,7 @@ public class Running {
     private Member owner;
 
     @Enumerated(EnumType.STRING)
-    private MeetingAgeType meetingType;
+    private RunningAgeType meetingType;
 
     @Embedded
     public Address address;
@@ -49,7 +49,7 @@ public class Running {
     private List<RunningPost> runningPostList = new ArrayList<>();
 
     // TODO: 2022-11-30 문자열 runningDate 를 LocalDateTime 으로 파싱 작업
-    public Running(Member owner, MeetingAgeType meetingType, Address address, Content content, int maxPeople, RunningImage... runningImages) {
+    public Running(Member owner, RunningAgeType meetingType, Address address, Content content, int maxPeople, List<RunningImage> runningImages) {
         setOwner(owner);
         addRunningImage(runningImages);
         this.owner = owner;
@@ -68,11 +68,10 @@ public class Running {
         owner.getRunningList().add(this);
     }
 
-    private void addRunningImage(RunningImage... runningImages) {
+    private void addRunningImage(List<RunningImage> runningImages) {
         for (RunningImage runningImage : runningImages) {
             this.runningImageList.add(runningImage);
             runningImage.setRunning(this);
         }
     }
-
 }
