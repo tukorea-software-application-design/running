@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum MeetingAgeType {
+public enum RunningAgeType {
     TEENAGE("TEENAGE"),
     TWENTIES("TWENTIES"),
     THIRTIES("THIRTIES"),
