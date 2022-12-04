@@ -7,7 +7,7 @@ import io.running.domain.member.Member;
 import io.running.domain.running.Running;
 import io.running.domain.running.RunningImage;
 import io.running.domain.running.RunningMember;
-import io.running.domain.running.repository.RunningMemberRepository;
+import io.running.domain.running.repository.runningMember.RunningMemberRepository;
 import io.running.domain.running.repository.RunningRepository;
 import io.running.domain.running.vo.Address;
 import io.running.domain.running.vo.Content;
@@ -15,6 +15,7 @@ import io.running.exception.CustomException;
 import io.running.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,39 +32,41 @@ public class RunningService {
         return new RunningCreateRespDto(saveRunning);
     }
 
+    @Transactional
     public RunningRetrieveRespDto retrieveRunning(Long runningId, String header) {
         Running running = findRunningBy(runningId);
         //TODO: 러닝 모임 가입부터 만들고 조회 만들자
         return new RunningRetrieveRespDto(running);
     }
 
+    @Transactional
     public void joinRunningRequest(Member member, Long runningId) {
         Running running = findRunningBy(runningId);
         runningMemberRepository.save(makeRunningMemberBy(member, running));
     }
 
+    @Transactional
     public void approve(Member owner, Long runningId, Long joinRequestMemberId) {
-        Running running = findRunningBy(runningId);
-        RunningMember runningMember = findRunningMemberBy(joinRequestMemberId);
+        RunningMember runningMember = findRunningMemberBy(runningId, joinRequestMemberId);
         // @TODO: 검증 로직 추가 필요
         runningMember.approveJoinStatus();
     }
 
+    @Transactional
     public void decline(Member owner, Long runningId, Long joinRequestMemberId) {
         Running running = findRunningBy(runningId);
-        RunningMember runningMember = findRunningMemberBy(joinRequestMemberId);
+        RunningMember runningMember = findRunningMemberBy(runningId, joinRequestMemberId);
         // @TODO: 검증 로직 추가 필요
         runningMember.rejectJoinStatus();
     }
 
+    @Transactional
     public void cancelJoinRequest(Long runningId, Member member) {
-        findRunningBy(runningId);
-//        findRunningMemberBy()
+        runningMemberRepository.deleteByMeetingIdAndMemberId(findRunningBy(runningId).getId(), member.getId());
     }
 
-    private RunningMember findRunningMemberBy(Long joinRequestMemberId) {
-        return runningMemberRepository.findById(joinRequestMemberId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RUNNING, "존재하지 않는 모임 회원입니다."));
+    private RunningMember findRunningMemberBy(Long runningId, Long joinRequestMemberId) {
+        return runningMemberRepository.findRunningMemberByRunningIdAndMemberID(runningId, joinRequestMemberId);
     }
 
     private RunningMember makeRunningMemberBy(Member member, Running running) {
