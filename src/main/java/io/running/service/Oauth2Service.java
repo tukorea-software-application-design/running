@@ -72,6 +72,11 @@ public class Oauth2Service {
                 .postForEntity(kakaoUserRequestUrl, kakaoUserInfoRequest, String.class);
 
         String responseBody = response.getBody();
+
+        System.out.println("==================================================================");
+        System.out.println("responseBody = " + responseBody);
+        System.out.println("==================================================================");
+
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(responseBody);
         Long id = jsonNode.get("id").asLong();

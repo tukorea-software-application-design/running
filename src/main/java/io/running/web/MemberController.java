@@ -27,6 +27,14 @@ public class MemberController {
                 .body(memberRegisterRespDto);
     }
 
+    @PostMapping("")
+    public ResponseEntity<MemberLocalRegisterRespDto> registerMember(@RequestBody MemberLocalRegisterReqDto memberLocalRegisterReqDto) {
+        MemberLocalRegisterRespDto memberRegisterRespDto = memberService.resister(new MemberResisterDto(memberLocalRegisterReqDto));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(memberRegisterRespDto);
+    }
+
     @PatchMapping("/me")
     public ResponseEntity editMember(Authentication authentication, @RequestBody MemberEditReqDto memberEditReqDto) {
         Member member = (Member) authentication.getPrincipal();

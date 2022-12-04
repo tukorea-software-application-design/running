@@ -31,6 +31,4 @@ public class loginController {
 
         return stringResponseEntity;
     }
-
-
 }
