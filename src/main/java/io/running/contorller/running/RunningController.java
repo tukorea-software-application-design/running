@@ -37,6 +37,15 @@ public class RunningController {
                 .body(runningService.retrieveRunning(runningId, header));
     }
 
+    @PostMapping("/{runningId}")
+    public ResponseEntity joinRunning(Authentication authentication, @PathVariable Long runningId) {
+        Member member = getMember(authentication);
+        runningService.joinRunningRequest(member, runningId);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
     private Member getMember(Authentication authentication) {
         return (Member) authentication.getPrincipal();
     }

@@ -18,6 +18,9 @@ public enum ErrorCode {
     NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다."),
     EXIST_MEMBER(HttpStatus.BAD_REQUEST, "이미 등록된 유저입니다."),
 
+    //러닝 예외
+    NOT_FOUND_RUNNING(HttpStatus.NOT_FOUND, "존재하지 않는 모임입니다."),
+
     //인증 인가 예외
     FORBIDDEN_MEMBER(HttpStatus.UNAUTHORIZED, "해당 요청에 권한이 없습니다."),
     INVALID_AUTHORIZATION(HttpStatus.BAD_REQUEST, "인증 정보가 부정확합니다.");

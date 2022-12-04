@@ -7,9 +7,13 @@ import io.running.domain.member.Member;
 import io.running.domain.member.repositroy.MemberRepository;
 import io.running.domain.running.Running;
 import io.running.domain.running.RunningImage;
+import io.running.domain.running.RunningMember;
+import io.running.domain.running.repository.RunningMemberRepository;
 import io.running.domain.running.repository.RunningRepository;
 import io.running.domain.running.vo.Address;
 import io.running.domain.running.vo.Content;
+import io.running.exception.CustomException;
+import io.running.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,7 @@ import java.util.List;
 public class RunningService {
 
     private final RunningRepository runningRepository;
+    private final RunningMemberRepository runningMemberRepository;
 
     public RunningCreateRespDto createRunning(Member member, RunningCreateReqDto createReqDto) {
         Running saveRunning = runningRepository.save(makeRunningBy(member, createReqDto));
@@ -28,7 +33,20 @@ public class RunningService {
     }
 
     public RunningRetrieveRespDto retrieveRunning(Long runningId, String header) {
-        return null;
+        Running running = findBy(runningId);
+        //TODO: 러닝 모임 가입부터 만들고 조회 만들자
+        return new RunningRetrieveRespDto(running);
+    }
+
+    public void joinRunningRequest(Member member, Long runningId) {
+        Running running = findBy(runningId);
+        runningMemberRepository.save(makeRunningMemberBy(member, running));
+    }
+
+    private RunningMember makeRunningMemberBy(Member member, Running running) {
+        RunningMember runningMember = new RunningMember(member);
+        runningMember.setRunning(running);
+        return runningMember;
     }
 
     private Running makeRunningBy(Member member, RunningCreateReqDto createReqDto) {
@@ -39,6 +57,11 @@ public class RunningService {
                 makeContent(createReqDto),
                 createReqDto.getMaxPeople(),
                 makeRunningImages(createReqDto));
+    }
+
+    private Running findBy(Long runningId) {
+        return runningRepository.findById(runningId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RUNNING, "존재하지 않는 모임입니다."));
     }
 
     private List<RunningImage> makeRunningImages(RunningCreateReqDto createReqDto) {
