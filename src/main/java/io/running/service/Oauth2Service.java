@@ -47,6 +47,10 @@ public class Oauth2Service {
         JsonNode jsonNode = objectMapper.readTree(responseBody);
         String token = jsonNode.get("access_token").asText();
 
+        System.out.println("==================================================================");
+        System.out.println("token = " + token);
+        System.out.println("==================================================================");
+
         String kakaoUserInfo = getKakaoUserInfo(token);
 
         return kakaoUserInfo;
