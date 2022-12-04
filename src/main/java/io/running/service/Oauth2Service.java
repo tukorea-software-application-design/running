@@ -49,6 +49,7 @@ public class Oauth2Service {
 
         System.out.println("==================================================================");
         System.out.println("token = " + token);
+        System.out.println("responseBody = " + responseBody);
         System.out.println("==================================================================");
 
         String kakaoUserInfo = getKakaoUserInfo(token);
