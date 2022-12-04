@@ -21,7 +21,7 @@ class RunningCommentTest {
 
     @BeforeEach
     public void beforeEach() {
-        member = new Member("1234", "issiscv@naver.com", "김상운", "img.com", "나는 개똥 벌레");
+        member = new Member("1234", "issiscv@naver.com", "김상운", "img.com", "나는 개똥 벌레", "78@na.com");
 
         meetingAddress = new Address();
         content = new Content("제목", "내용");

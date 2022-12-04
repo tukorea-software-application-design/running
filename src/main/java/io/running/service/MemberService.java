@@ -1,9 +1,10 @@
 package io.running.service;
 
 import io.running.dto.req.MemberEditReqDto;
-import io.running.dto.resp.MemberLocalRegisterRespDto;
+import io.running.dto.resp.MemberRegisterRespDto;
 import io.running.domain.member.Member;
 import io.running.domain.member.repositroy.MemberRepository;
+import io.running.service.dto.MemberResisterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,9 +20,9 @@ public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
-    public MemberLocalRegisterRespDto resister(MemberResisterDto memberResisterDto) {
+    public MemberRegisterRespDto resister(MemberResisterDto memberResisterDto) {
         Member member = memberRepository.save(makeMember(memberResisterDto));
-        return new MemberLocalRegisterRespDto(member);
+        return new MemberRegisterRespDto(member);
     }
 
     private Member makeMember(MemberResisterDto memberResisterDto) {
@@ -31,6 +32,7 @@ public class MemberService implements UserDetailsService {
                 .nickname(memberResisterDto.getNickname())
                 .imgUrl(memberResisterDto.getImgUrl())
                 .introduce(memberResisterDto.getIntroduce())
+                .email(memberResisterDto.getEmail())
                 .build();
     }
 

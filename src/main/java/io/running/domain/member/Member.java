@@ -33,15 +33,18 @@ public class Member extends BaseTimeEntity implements UserDetails {
 
     private String introduce;
 
+    private String email;
+
     @OneToMany(mappedBy = "owner")
     private List<Running> runningList = new ArrayList<>();
 
-    public Member(String uid, String name, String nickname, String imgUrl, String introduce) {
+    public Member(String uid, String name, String nickname, String imgUrl, String introduce, String email) {
         this.uid = uid;
         this.name = name;
         this.nickname = nickname;
         this.imgUrl = imgUrl;
         this.introduce = introduce;
+        this.email = email;
     }
 
     public void changeNickname(String nickname) {

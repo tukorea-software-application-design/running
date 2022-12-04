@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class MemberLocalRegisterReqDto {
+public class MemberRegisterReqDto {
     private String uid;
 
     private String name;
@@ -17,4 +17,6 @@ public class MemberLocalRegisterReqDto {
     private String imgUrl;
 
     private String introduce;
+
+    private String email;
 }

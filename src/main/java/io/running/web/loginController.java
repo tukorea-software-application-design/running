@@ -17,10 +17,7 @@ public class loginController {
     @GetMapping("/login/oauth2/code/kakao")
     public String kakao(@RequestParam String code) throws JsonProcessingException {
         System.out.println(code);
-
-        String s = oauth2Service.requestKakaoAccessToken(code);
-
-        return s;
+        return oauth2Service.requestKakaoAccessToken(code);
     }
 
     @GetMapping("/login/oauth2/code/google")

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
+import io.running.service.dto.MemberKakaoUserInfoDto;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -52,12 +53,10 @@ public class Oauth2Service {
         System.out.println("responseBody = " + responseBody);
         System.out.println("==================================================================");
 
-        String kakaoUserInfo = getKakaoUserInfo(token);
-
-        return kakaoUserInfo;
+        return token;
     }
 
-    private String getKakaoUserInfo(String accessToken) throws JsonProcessingException {
+    public MemberKakaoUserInfoDto getKakaoUserInfo(String accessToken) throws JsonProcessingException {
         String kakaoUserRequestUrl = "https://kapi.kakao.com/v2/user/me";
 
         // HTTP Header 생성
@@ -80,11 +79,8 @@ public class Oauth2Service {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(responseBody);
-        Long id = jsonNode.get("id").asLong();
-        String nickname = jsonNode.get("properties")
-                .get("nickname").asText();
 
-        return id + " " + nickname;
+        return new MemberKakaoUserInfoDto(jsonNode);
     }
 
     public ResponseEntity<String> requestGoogleAccessToken(String code) {

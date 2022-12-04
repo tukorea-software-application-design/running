@@ -34,7 +34,7 @@ class RunningTest {
 
     @BeforeEach
     public void beforeEach() {
-        member = new Member("1234", "issiscv@naver.com", "김상운", "img.com", "나는 개똥 벌레");
+        member = new Member("1234", "issiscv@naver.com", "김상운", "img.com", "나는 개똥 벌레", "81237@nave.com");
 
         anyone = RunningAgeType.ANYONE;
         meetingAddress = new Address();
