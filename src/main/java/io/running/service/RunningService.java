@@ -4,7 +4,6 @@ import io.running.contorller.running.dto.req.RunningCreateReqDto;
 import io.running.contorller.running.dto.resp.RunningCreateRespDto;
 import io.running.contorller.running.dto.resp.RunningRetrieveRespDto;
 import io.running.domain.member.Member;
-import io.running.domain.member.repositroy.MemberRepository;
 import io.running.domain.running.Running;
 import io.running.domain.running.RunningImage;
 import io.running.domain.running.RunningMember;
@@ -33,14 +32,38 @@ public class RunningService {
     }
 
     public RunningRetrieveRespDto retrieveRunning(Long runningId, String header) {
-        Running running = findBy(runningId);
+        Running running = findRunningBy(runningId);
         //TODO: 러닝 모임 가입부터 만들고 조회 만들자
         return new RunningRetrieveRespDto(running);
     }
 
     public void joinRunningRequest(Member member, Long runningId) {
-        Running running = findBy(runningId);
+        Running running = findRunningBy(runningId);
         runningMemberRepository.save(makeRunningMemberBy(member, running));
+    }
+
+    public void approve(Member owner, Long runningId, Long joinRequestMemberId) {
+        Running running = findRunningBy(runningId);
+        RunningMember runningMember = findRunningMemberBy(joinRequestMemberId);
+        // @TODO: 검증 로직 추가 필요
+        runningMember.approveJoinStatus();
+    }
+
+    public void decline(Member owner, Long runningId, Long joinRequestMemberId) {
+        Running running = findRunningBy(runningId);
+        RunningMember runningMember = findRunningMemberBy(joinRequestMemberId);
+        // @TODO: 검증 로직 추가 필요
+        runningMember.rejectJoinStatus();
+    }
+
+    public void cancelJoinRequest(Long runningId, Member member) {
+        findRunningBy(runningId);
+//        findRunningMemberBy()
+    }
+
+    private RunningMember findRunningMemberBy(Long joinRequestMemberId) {
+        return runningMemberRepository.findById(joinRequestMemberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RUNNING, "존재하지 않는 모임 회원입니다."));
     }
 
     private RunningMember makeRunningMemberBy(Member member, Running running) {
@@ -59,7 +82,7 @@ public class RunningService {
                 makeRunningImages(createReqDto));
     }
 
-    private Running findBy(Long runningId) {
+    private Running findRunningBy(Long runningId) {
         return runningRepository.findById(runningId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RUNNING, "존재하지 않는 모임입니다."));
     }

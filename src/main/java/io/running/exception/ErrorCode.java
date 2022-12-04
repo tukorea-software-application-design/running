@@ -20,6 +20,7 @@ public enum ErrorCode {
 
     //러닝 예외
     NOT_FOUND_RUNNING(HttpStatus.NOT_FOUND, "존재하지 않는 모임입니다."),
+    NOT_FOUND_RUNNING_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
 
     //인증 인가 예외
     FORBIDDEN_MEMBER(HttpStatus.UNAUTHORIZED, "해당 요청에 권한이 없습니다."),

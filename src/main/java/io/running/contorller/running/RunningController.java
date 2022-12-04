@@ -44,6 +44,24 @@ public class RunningController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{runningId}/members/{joinRequestMemberId}/approve")
+    public ResponseEntity approveJoin(Authentication authentication, @PathVariable Long runningId, @PathVariable Long joinRequestMemberId) {
+        runningService.approve(getMember(authentication), runningId, joinRequestMemberId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{runningId}/members/{joinRequestMemberId}/decline")
+    public ResponseEntity declineJoin(Authentication authentication, @PathVariable Long runningId, @PathVariable Long joinRequestMemberId) {
+        runningService.decline(getMember(authentication), runningId, joinRequestMemberId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{runningId}/cancel")
+    public ResponseEntity cancelJoinRequest(@PathVariable Long runningId, Authentication authentication) {
+        runningService.cancelJoinRequest(runningId, getMember(authentication));
+        return ResponseEntity.noContent().build();
+    }
+
 
 
     private Member getMember(Authentication authentication) {
