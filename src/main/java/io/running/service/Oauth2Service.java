@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import io.running.service.dto.MemberKakaoUserInfoDto;
+import io.running.util.JwtUtils;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -21,13 +22,15 @@ import java.util.Map;
 @Service
 public class Oauth2Service {
 
+    private final JwtUtils jwtUtils = new JwtUtils();
+
     public String requestKakaoAccessToken(String code) throws JsonProcessingException {
         String kakaoTokenRequestUrl = "https://kauth.kakao.com/oauth/token";
-    
+
         //헤더
-        HttpHeaders headers  = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-    
+
         //바디
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
@@ -36,7 +39,7 @@ public class Oauth2Service {
         body.add("code", code);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트로 담는다
-        HttpEntity<MultiValueMap<String,String>> kakaoTokenRequest = new HttpEntity<>(body, headers);//요청 바디, 헤더
+        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(body, headers);//요청 바디, 헤더
 
         // 실제요청
         RestTemplate restTemplate = new RestTemplate();
@@ -48,12 +51,14 @@ public class Oauth2Service {
         JsonNode jsonNode = objectMapper.readTree(responseBody);
         String token = jsonNode.get("access_token").asText();
 
+
+
         System.out.println("==================================================================");
         System.out.println("token = " + token);
         System.out.println("responseBody = " + responseBody);
         System.out.println("==================================================================");
 
-        return token;
+        return "Bearer " + jwtUtils.createJwt(getKakaoUserInfo(token).getUid());
     }
 
     public MemberKakaoUserInfoDto getKakaoUserInfo(String accessToken) throws JsonProcessingException {
@@ -77,32 +82,12 @@ public class Oauth2Service {
         System.out.println("responseBody = " + responseBody);
         System.out.println("==================================================================");
 
+
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(responseBody);
 
         return new MemberKakaoUserInfoDto(jsonNode);
     }
-
-    public ResponseEntity<String> requestGoogleAccessToken(String code) {
-        String googleTokenRequestUrl = "https://oauth2.googleapis.com/token";
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("code", code);
-        params.put("client_id", "351753992442-p4p3lrp9l0jqb7neaiu3tttolvga88ng.apps.googleusercontent.com");
-        params.put("client_secret", "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");
-        params.put("redirect_uri", "http://localhost:8080/login/oauth2/code/google");
-        params.put("grant_type", "authorization_code");
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(googleTokenRequestUrl,
-                params, String.class);
-
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return responseEntity;
-        }
-        return null;
-    }
-
 
     public void createKakaoUser(String token) {
 
@@ -138,7 +123,7 @@ public class Oauth2Service {
             int id = element.getAsJsonObject().get("id").getAsInt();
             boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
             String email = "";
-            if(hasEmail){
+            if (hasEmail) {
                 email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
             }
 

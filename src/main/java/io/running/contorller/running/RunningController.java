@@ -62,8 +62,6 @@ public class RunningController {
         return ResponseEntity.noContent().build();
     }
 
-
-
     private Member getMember(Authentication authentication) {
         return (Member) authentication.getPrincipal();
     }

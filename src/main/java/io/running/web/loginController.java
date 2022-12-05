@@ -27,13 +27,4 @@ public class loginController {
 
         return obj.toString();
     }
-
-    @GetMapping("/login/oauth2/code/google")
-    public ResponseEntity<String> google(@RequestParam String code) {
-        System.out.println(code);
-
-        ResponseEntity<String> stringResponseEntity = oauth2Service.requestGoogleAccessToken(code);
-
-        return stringResponseEntity;
-    }
 }
