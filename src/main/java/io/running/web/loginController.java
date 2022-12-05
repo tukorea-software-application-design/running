@@ -1,6 +1,7 @@
 package io.running.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.JsonObject;
 import io.running.service.Oauth2Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,15 @@ public class loginController {
     private final Oauth2Service oauth2Service;
 
     @GetMapping("/login/oauth2/code/kakao")
-    public ResponseEntity<String> kakao(@RequestParam String code) throws JsonProcessingException {
+    public String kakao(@RequestParam String code) throws JsonProcessingException {
         System.out.println(code);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(oauth2Service.requestKakaoAccessToken(code));
+
+        JsonObject obj =new JsonObject();
+        String s = oauth2Service.requestKakaoAccessToken(code);
+
+        obj.addProperty("token", s);
+
+        return obj.toString();
     }
 
     @GetMapping("/login/oauth2/code/google")
