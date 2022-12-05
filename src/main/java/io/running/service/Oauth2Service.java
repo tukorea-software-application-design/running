@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import io.running.service.dto.MemberKakaoUserInfoDto;
 import io.running.util.JwtUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -20,9 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class Oauth2Service {
 
     private final JwtUtils jwtUtils = new JwtUtils();
+    private final MemberService memberService;
 
     public String requestKakaoAccessToken(String code) throws JsonProcessingException {
         String kakaoTokenRequestUrl = "https://kauth.kakao.com/oauth/token";
@@ -51,17 +54,10 @@ public class Oauth2Service {
         JsonNode jsonNode = objectMapper.readTree(responseBody);
         String token = jsonNode.get("access_token").asText();
 
-
-
-        System.out.println("==================================================================");
-        System.out.println("token = " + token);
-        System.out.println("responseBody = " + responseBody);
-        System.out.println("==================================================================");
-
-        return "Bearer " + jwtUtils.createJwt(getKakaoUserInfo(token).getUid());
+        return "Bearer " + jwtUtils.createJwt(getKakaoUserInfo(token));
     }
 
-    public MemberKakaoUserInfoDto getKakaoUserInfo(String accessToken) throws JsonProcessingException {
+    public String getKakaoUserInfo(String accessToken) throws JsonProcessingException {
         String kakaoUserRequestUrl = "https://kapi.kakao.com/v2/user/me";
 
         // HTTP Header 생성
@@ -77,16 +73,13 @@ public class Oauth2Service {
                 .postForEntity(kakaoUserRequestUrl, kakaoUserInfoRequest, String.class);
 
         String responseBody = response.getBody();
-
-        System.out.println("==================================================================");
-        System.out.println("responseBody = " + responseBody);
-        System.out.println("==================================================================");
-
-
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(responseBody);
 
-        return new MemberKakaoUserInfoDto(jsonNode);
+        MemberKakaoUserInfoDto userInfoDto = new MemberKakaoUserInfoDto(jsonNode);
+        memberService.resister(userInfoDto);
+
+        return userInfoDto.getUid();
     }
 
     public void createKakaoUser(String token) {

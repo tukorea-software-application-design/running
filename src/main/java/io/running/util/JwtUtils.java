@@ -14,7 +14,7 @@ public class JwtUtils {
     private final String key = "asdf";
 
     //jwt 토큰 생성
-    public String createJwt(String param1) {//payload에 넣을 파라미터
+    public String createJwt(String uid) {//payload에 넣을 파라미터
         //자신이 넣고자 하는 파라미터의 수에 따라 payload의 값은 변경된다.
 
         //Header 부분 설정
@@ -25,7 +25,7 @@ public class JwtUtils {
 
         //payload 부분 설정
         Map<String, Object> payloads = new HashMap<>();
-        payloads.put("param1", param1);
+        payloads.put("uid", uid);
         //실제적인 jwt의 데이터를 담당하는 부분이다.
 
         // 토큰 Builder
@@ -42,13 +42,10 @@ public class JwtUtils {
     public Map<String, Object> checkJwt(String jwt) throws UnsupportedEncodingException {
         Map<String, Object> claimMap = null;
         try {
-            Claims claims = Jwts.parser()
+            claimMap = Jwts.parser()
                     .setSigningKey(key.getBytes("UTF-8")) // 키 설정
                     .parseClaimsJws(jwt) // jwt의 정보를 파싱해서 시그니처 값을 검증한다.
                     .getBody();
-
-            claimMap = claims;
-
         } catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
             System.out.println(e);
 

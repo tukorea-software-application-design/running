@@ -1,9 +1,10 @@
 package io.running.service;
 
 import io.running.dto.req.MemberEditReqDto;
-import io.running.dto.resp.MemberRegisterRespDto;
+import io.running.dto.resp.MemberLocalRegisterRespDto;
 import io.running.domain.member.Member;
 import io.running.domain.member.repositroy.MemberRepository;
+import io.running.service.dto.MemberKakaoUserInfoDto;
 import io.running.service.dto.MemberResisterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +21,22 @@ public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
-    public MemberRegisterRespDto resister(MemberResisterDto memberResisterDto) {
+    public MemberLocalRegisterRespDto localResister(MemberResisterDto memberResisterDto) {
         Member member = memberRepository.save(makeMember(memberResisterDto));
-        return new MemberRegisterRespDto(member);
+        return new MemberLocalRegisterRespDto(member);
+    }
+
+    public void resister(MemberKakaoUserInfoDto memberKakaoUserInfoDto) {
+        memberRepository.save(makeMember(memberKakaoUserInfoDto));
+    }
+
+    private Member makeMember(MemberKakaoUserInfoDto memberKakaoUserInfoDto) {
+        return Member.builder()
+                .uid(memberKakaoUserInfoDto.getUid())
+                .name(memberKakaoUserInfoDto.getName())
+                .imgUrl(memberKakaoUserInfoDto.getImgUrl())
+                .email(memberKakaoUserInfoDto.getEmail())
+                .build();
     }
 
     private Member makeMember(MemberResisterDto memberResisterDto) {

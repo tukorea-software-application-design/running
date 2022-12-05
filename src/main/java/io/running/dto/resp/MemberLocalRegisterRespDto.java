@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class MemberRegisterRespDto {
+public class MemberLocalRegisterRespDto {
 
     private Long id;
 
@@ -24,7 +24,7 @@ public class MemberRegisterRespDto {
 
     private String email;
 
-    public MemberRegisterRespDto(Member member) {
+    public MemberLocalRegisterRespDto(Member member) {
         this.id = member.getId();
         this.uid = member.getUid();
         this.name = member.getName();

@@ -1,6 +1,7 @@
 package io.running.filter;
 
 import io.running.exception.CustomException;
+import io.running.util.JwtUtils;
 import io.running.util.RequestUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,7 +43,10 @@ public class MockJwtFilter extends OncePerRequestFilter{
 
         // User를 가져와 SecurityContext에 저장한다.
         try{
-            UserDetails user = userDetailsService.loadUserByUsername(header);//user? id 를 통해 회원 엔티티 조회
+            JwtUtils jwtUtils = new JwtUtils();
+            Map<String, Object> checkJwt = jwtUtils.checkJwt(header);
+            String uid = (String) checkJwt.get("param1");
+            UserDetails user = userDetailsService.loadUserByUsername(uid);//user? id 를 통해 회원 엔티티 조회
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     user, null, user.getAuthorities());//인증 객체 생성        
             SecurityContextHolder.getContext().setAuthentication(authentication);//securityContextHolder 에 인증 객체 저장
