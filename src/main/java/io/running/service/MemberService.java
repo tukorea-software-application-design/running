@@ -4,6 +4,8 @@ import io.running.dto.req.MemberEditReqDto;
 import io.running.dto.resp.MemberLocalRegisterRespDto;
 import io.running.domain.member.Member;
 import io.running.domain.member.repositroy.MemberRepository;
+import io.running.exception.CustomException;
+import io.running.exception.ErrorCode;
 import io.running.service.dto.MemberKakaoUserInfoDto;
 import io.running.service.dto.MemberResisterDto;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +29,15 @@ public class MemberService implements UserDetailsService {
     }
 
     public void resister(MemberKakaoUserInfoDto memberKakaoUserInfoDto) {
+        validateAlreadyRegistered(memberKakaoUserInfoDto);
         memberRepository.save(makeMember(memberKakaoUserInfoDto));
+    }
+
+    private void validateAlreadyRegistered(MemberKakaoUserInfoDto memberKakaoUserInfoDto) {
+        Optional<Member> optionalMember = memberRepository.findByUid(memberKakaoUserInfoDto.getUid());
+        if (optionalMember.isPresent()) {
+            throw new CustomException(ErrorCode.EXIST_MEMBER, "해당 계정으로 이미 회원가입을 했습니다.");
+        }
     }
 
     private Member makeMember(MemberKakaoUserInfoDto memberKakaoUserInfoDto) {
