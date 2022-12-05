@@ -45,7 +45,7 @@ public class MockJwtFilter extends OncePerRequestFilter{
         try{
             JwtUtils jwtUtils = new JwtUtils();
             Map<String, Object> checkJwt = jwtUtils.checkJwt(header);
-            String uid = (String) checkJwt.get("param1");
+            String uid = (String) checkJwt.get("uid");
             UserDetails user = userDetailsService.loadUserByUsername(uid);//user? id 를 통해 회원 엔티티 조회
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     user, null, user.getAuthorities());//인증 객체 생성        
