@@ -35,7 +35,6 @@ public class RunningService {
     @Transactional
     public RunningRetrieveRespDto retrieveRunning(Long runningId, String header) {
         Running running = findRunningBy(runningId);
-        //TODO: 러닝 모임 가입부터 만들고 조회 만들자
         return new RunningRetrieveRespDto(running);
     }
 
