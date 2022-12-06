@@ -7,12 +7,15 @@ import io.running.domain.member.Member;
 import io.running.service.RunningService;
 import io.running.util.RequestUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +38,13 @@ public class RunningController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(runningService.retrieveRunning(runningId, header));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Slice<RunningRetrieveRespDto>> retrieveAllMeeting(Pageable pageable) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(runningService.retrieveAll(pageable));
     }
 
     @PostMapping("/{runningId}")

@@ -14,6 +14,8 @@ import io.running.domain.running.vo.Content;
 import io.running.exception.CustomException;
 import io.running.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RunningService {
-
     private final RunningRepository runningRepository;
+
     private final RunningMemberRepository runningMemberRepository;
 
     public RunningCreateRespDto createRunning(Member member, RunningCreateReqDto createReqDto) {
@@ -36,6 +38,12 @@ public class RunningService {
     public RunningRetrieveRespDto retrieveRunning(Long runningId, String header) {
         Running running = findRunningBy(runningId);
         return new RunningRetrieveRespDto(running);
+    }
+
+    @Transactional
+    public Slice<RunningRetrieveRespDto> retrieveAll(Pageable pageable) {
+        Slice<Running> runningSlice = runningRepository.findAllSlicingWithFetchJoinMember(pageable);
+        return meetingSliceMapToRetrieveRespDto(runningSlice);
     }
 
     @Transactional
@@ -62,6 +70,10 @@ public class RunningService {
     @Transactional
     public void deleteJoinRunningMember(Long runningId, Member member) {
         runningMemberRepository.deleteByMeetingIdAndMemberId(findRunningBy(runningId).getId(), member.getId());
+    }
+
+    private Slice<RunningRetrieveRespDto> meetingSliceMapToRetrieveRespDto(Slice<Running> meetingSlice) {
+        return meetingSlice.map(running -> new RunningRetrieveRespDto(running));
     }
 
     private RunningMember findRunningMemberBy(Long runningId, Long joinRequestMemberId) {
