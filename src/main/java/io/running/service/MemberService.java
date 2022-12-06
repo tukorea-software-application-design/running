@@ -29,7 +29,7 @@ public class MemberService implements UserDetailsService {
     }
 
     public void resister(MemberKakaoUserInfoDto memberKakaoUserInfoDto) {
-        validateAlreadyRegistered(memberKakaoUserInfoDto);
+//        validateAlreadyRegistered(memberKakaoUserInfoDto);
         memberRepository.save(makeMember(memberKakaoUserInfoDto));
     }
 
