@@ -18,7 +18,7 @@ public class MemberRetrieveOneMemberDto {
 
     public MemberRetrieveOneMemberDto (RunningMember runningMember) {
         this.memberId = runningMember.getMember().getId();
-        this.nickname = runningMember.getMember().getNickname();
+        this.nickname = runningMember.getMember().getName();
         this.memberImgUrl = runningMember.getMember().getImgUrl();
     }
 }

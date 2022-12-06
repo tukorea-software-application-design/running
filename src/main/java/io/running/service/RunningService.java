@@ -60,7 +60,7 @@ public class RunningService {
     }
 
     @Transactional
-    public void cancelJoinRequest(Long runningId, Member member) {
+    public void deleteJoinRunningMember(Long runningId, Member member) {
         runningMemberRepository.deleteByMeetingIdAndMemberId(findRunningBy(runningId).getId(), member.getId());
     }
 
@@ -111,5 +111,9 @@ public class RunningService {
                 .content(createReqDto.getContent())
                 .build();
         return content;
+    }
+
+    private boolean isFull(Integer maxPeople, Long joinMemberCount) {
+        return maxPeople <= joinMemberCount;
     }
 }

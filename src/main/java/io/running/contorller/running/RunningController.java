@@ -58,7 +58,13 @@ public class RunningController {
 
     @DeleteMapping("/{runningId}/cancel")
     public ResponseEntity cancelJoinRequest(@PathVariable Long runningId, Authentication authentication) {
-        runningService.cancelJoinRequest(runningId, getMember(authentication));
+        runningService.deleteJoinRunningMember(runningId, getMember(authentication));
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{runningId}/resign")
+    public ResponseEntity resignMeeting(@PathVariable Long runningId, Authentication authentication) {
+        runningService.deleteJoinRunningMember(runningId, getMember(authentication));
         return ResponseEntity.noContent().build();
     }
 

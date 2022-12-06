@@ -53,6 +53,7 @@ public class RunningRetrieveRespDto {
         this.ownerId = running.getOwner().getId();
         this.ownerNickname = running.getOwner().getNickname();
         this.isOpened = running.isOpened();
+        this.doName = running.getAddress().getDoName();
         this.sigungu = running.getAddress().getSigungu();
         this.location = running.getAddress().getLocation();
         this.meetingType = running.getMeetingType().getDetail();
